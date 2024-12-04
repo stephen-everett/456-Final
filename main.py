@@ -9,6 +9,16 @@ pre_processor.load_dataset()
 
 #check to see what the data looks like initially:
 pre_processor.head()
+"""
+HEAD
+-------------------
+   gender   age  hypertension  heart_disease smoking_history    bmi  HbA1c_level  blood_glucose_level  diabetes
+0  Female  80.0             0              1           never  25.19          6.6                  140         0
+1  Female  54.0             0              0         No Info  27.32          6.6                   80         0
+2    Male  28.0             0              0           never  27.32          5.7                  158         0
+3  Female  36.0             0              0         current  23.45          5.0                  155         0
+4    Male  76.0             1              1         current  20.14          4.8                  155         0
+"""
 
 # looking at numerican properties of the dataset
 pre_processor.describe()
@@ -118,6 +128,18 @@ print("Showing dataframe after pre_processor...")
 print("HEAD")
 printLine()
 print(df.head())
+"""
+HEAD
+-------------------
+   gender   age  hypertension  heart_disease  smoking_history    bmi  HbA1c_level  blood_glucose_level  diabetes
+0       0  80.0             0              1                4  25.19          6.6                  140         0
+1       0  54.0             0              0                0  27.32          6.6                   80         0
+2       1  28.0             0              0                4  27.32          5.7                  158         0
+3       0  36.0             0              0                1  23.45          5.0                  155         0
+4       1  76.0             1              1                1  20.14          4.8                  155         0
+"""
+
+
 """
 Things to answer:
     1. Are there missing values? Which columns are affected?

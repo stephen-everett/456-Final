@@ -274,11 +274,5 @@ plt.show()
 #sns.pairplot(df, hue='diabetes')  
 #plt.show()
 
-"""
-Things to answer:
-    1. Are there missing values? Which columns are affected?
-    2. Do numerical features have outliers? Are they normally distributed or skewed?
-    3. Are there correlations between features or with the target variable?
-    4. Is the target variable balanced, or is there a class imbalance?
-"""
+
 
