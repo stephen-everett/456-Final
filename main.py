@@ -1,5 +1,6 @@
 from preprocessing import DataPreprocessor
 from utils import printLine
+from sklearn.model_selection import train_test_split
 
 filename = 'diabetes_prediction_dataset.csv'
 
@@ -108,7 +109,17 @@ A graph opens
 
 # TODO choose a standarization model. This will depend on the model we train
 # Standardization VS Normalization
-
+# Standardize numerical features
+pre_processor.standardize()
+"""
+Numerical features standardized.
+   gender       age  hypertension  ...  HbA1c_level blood_glucose_level  diabetes
+0  Female  1.692704     -0.284439  ...     1.001706            0.047704 -0.304789
+1  Female  0.538006     -0.284439  ...     1.001706           -1.426210 -0.304789
+2    Male -0.616691     -0.284439  ...     0.161108            0.489878 -0.304789
+3  Female -0.261399     -0.284439  ...    -0.492690            0.416183 -0.304789
+4    Male  1.515058      3.515687  ...    -0.679490            0.416183 -0.304789
+"""
 
 
 
@@ -146,4 +157,20 @@ Things to answer:
     2. Do numerical features have outliers? Are they normally distributed or skewed?
     3. Are there correlations between features or with the target variable?
     4. Is the target variable balanced, or is there a class imbalance?
+"""
+
+# Split the dataset into training and testing sets
+X = df.drop(columns=['diabetes'])
+y = df['diabetes']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+printLine()
+print("Dataset split into training and testing sets.")
+print(f"Training set: {X_train.shape[0]} samples")
+print(f"Testing set: {X_test.shape[0]} samples")
+"""
+Dataset split into training and testing sets.
+Training set: 80000 samples
+Testing set: 20000 samples
 """

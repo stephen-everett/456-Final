@@ -2,7 +2,7 @@
 
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder, StandardScaler
 import seaborn as sns
 from utils import printLine
 
@@ -14,6 +14,7 @@ class DataPreprocessor:
         """
         self.dataset_path = dataset_path
         self.df = None
+        self.scaler = StandardScaler()
 
     def load_dataset(self):
         """
@@ -118,6 +119,12 @@ class DataPreprocessor:
         sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', fmt=".2f")
         plt.title("Correlation Matrix")
         plt.show()
+
+    def standardize(self):
+        numerical_cols = self.df.select_dtypes(include=['float64', 'int64']).columns
+        self.df[numerical_cols] = self.scaler.fit_transform(self.df[numerical_cols])
+        print("Numerical features standardized.")
+        print(self.df.head())
 
     def getDf(self):
         return self.df
