@@ -1,7 +1,7 @@
 from preprocessing import DataPreprocessor
 from utils import printLine
 from sklearn.model_selection import train_test_split
-from model_training import train_logistic_regression, train_decision_tree, train_random_forest
+from model_training import  *
 from evaluation import evaluate_model
 
 filename = 'diabetes_prediction_dataset.csv'
@@ -37,6 +37,7 @@ min         0.080000       0.00000       0.000000      10.010000       3.500000 
 max        80.000000       1.00000       1.000000      95.690000       9.000000           300.000000       1.000000
 
 # min age of 0.08 might outlier.
+# sample is highly imbalanced. 8.5% of the sample has diabetes while 91.5% does not have diabetes. This will need to be addressed later.
 
 """
 
@@ -197,6 +198,15 @@ print(f"Accuracy: {lr_accuracy}")
 print(f"Precision: {lr_precision}")
 print(f"Recall: {lr_recall}")
 print(f"F1 Score: {lr_f1}")
+"""
+-------------------
+Logistic Regression Model Evaluation
+-------------------
+Accuracy: 0.95875
+Precision: 0.8645747316267548
+Recall: 0.6129976580796253
+F1 Score: 0.7173689619732785
+"""
 
 printLine()
 print("Decision Tree Model Evaluation")
@@ -206,6 +216,15 @@ print(f"Accuracy: {dt_accuracy}")
 print(f"Precision: {dt_precision}")
 print(f"Recall: {dt_recall}")
 print(f"F1 Score: {dt_f1}")
+"""
+-------------------
+Decision Tree Model Evaluation
+-------------------
+Accuracy: 0.9519
+Precision: 0.7090807174887892
+Recall: 0.740632318501171
+F1 Score: 0.7245131729667812
+"""
 
 printLine()
 print("Random Forest Model Evaluation")
@@ -215,3 +234,212 @@ print(f"Accuracy: {rf_accuracy}")
 print(f"Precision: {rf_precision}")
 print(f"Recall: {rf_recall}")
 print(f"F1 Score: {rf_f1}")
+"""
+-------------------
+Random Forest Model Evaluation
+-------------------
+Accuracy: 0.9703
+Precision: 0.9484702093397746
+Recall: 0.689695550351288
+F1 Score: 0.7986440677966101
+"""
+
+# Hyperparameter tuning
+"""
+printLine()
+print("Hyperparameter Tuning for Logistic Regression")
+printLine()
+hyper_logistic_regression_model = hyper_train_logistic_regression(X_train, y_train)
+hlr_accuracy, hlr_precision, hlr_recall, hlr_f1 = evaluate_model(hyper_logistic_regression_model, X_test, y_test)
+print(f"Accuracy: {hlr_accuracy}")
+print(f"Precision: {hlr_precision}")
+print(f"Recall: {hlr_recall}")
+print(f"F1 Score: {hlr_f1}")
+"""
+"""
+-------------------
+Hyperparameter Tuning for Logistic Regression
+-------------------
+Best parameters for Logistic Regression: {'C': 0.1, 'solver': 'lbfgs'}
+Accuracy: 0.9589
+Precision: 0.8685524126455907
+Recall: 0.6112412177985949
+F1 Score: 0.7175257731958763
+"""
+
+printLine()
+print("Hyperparameter Tuning for Decision Tree")
+printLine()
+hyper_descision_tree_model = hyper_train_decision_tree(X_train, y_train)
+hdt_accuracy, hdt_precision, hdt_recall, hdt_f1 = evaluate_model(hyper_descision_tree_model, X_test, y_test)
+print(f"Accuracy: {hdt_accuracy}")
+print(f"Precision: {hdt_precision}")
+print(f"Recall: {hdt_recall}")
+print(f"F1 Score: {hdt_f1}")
+
+"""
+-------------------
+Hyperparameter Tuning for Decision Tree
+-------------------
+Best parameters for Decision Tree: {'ccp_alpha': 0.0, 'criterion': 'gini', 'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1, 'min_samples_split': 2}
+Accuracy: 0.97215
+Precision: 1.0
+Recall: 0.6738875878220141
+F1 Score: 0.8051766351871283
+"""
+
+
+"""
+This takes a long time, commenting it out for now
+
+printLine()
+print("Hyperparameter Tuning for Random Forest")
+printLine()
+hyper_random_forest_model = hyper_train_random_forest(X_train, y_train)
+hrf_accuracy, hrf_precision, hrf_recall, hrf_f1 = evaluate_model(hyper_random_forest_model, X_test, y_test)
+print(f"Accuracy: {hrf_accuracy}")
+print(f"Precision: {hrf_precision}")
+print(f"Recall: {hrf_recall}")
+print(f"F1 Score: {hrf_f1}")
+"""
+
+"""
+Hyperparameter Tuning for Random Forest
+-------------------
+Best parameters for Random Forest: {'bootstrap': True, 'max_depth': 10, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'min_samples_split': 2, 'n_estimators': 100}
+Accuracy: 0.9722
+Precision: 1.0
+Recall: 0.6744730679156908
+F1 Score: 0.8055944055944056
+"""
+
+# feature selection
+printLine()
+print("Feature Selection for Logistic Regression")
+printLine()
+rfe_logistic_regression_model, selected_features, X_test_selected = feature_selection_rfe_logistic(X_train, y_train, X_test)
+rfe_lr_accuracy, rfe_lr_precision, rfe_lr_recall, rfe_lr_f1 = evaluate_model(rfe_logistic_regression_model, X_test_selected, y_test)
+print(f"Accuracy: {rfe_lr_accuracy}")
+print(f"Precision: {rfe_lr_precision}")
+print(f"Recall: {rfe_lr_recall}")
+print(f"F1 Score: {rfe_lr_f1}")
+"""
+-------------------
+Feature Selection for Logistic Regression
+-------------------
+Selected Features by RFE: ['age', 'hypertension', 'heart_disease', 'HbA1c_level', 'blood_glucose_level']
+Accuracy: 0.95665
+Precision: 0.8584825234441603
+Recall: 0.5895784543325527
+F1 Score: 0.6990628254078445
+"""
+
+printLine()
+print("Feature Selection for Decision Tree")
+printLine()
+
+# Perform feature selection with Decision Tree
+dt_model, selected_features, X_test_selected = feature_selection_decision_tree(X_train, y_train, X_test, n_features=5)
+
+# Evaluate the model
+dt_accuracy, dt_precision, dt_recall, dt_f1 = evaluate_model(dt_model, X_test_selected, y_test)
+print(f"Accuracy: {dt_accuracy}")
+print(f"Precision: {dt_precision}")
+print(f"Recall: {dt_recall}")
+print(f"F1 Score: {dt_f1}")
+"""
+-------------------
+Feature Selection for Decision Tree
+-------------------
+Selected Features by Decision Tree: ['HbA1c_level', 'blood_glucose_level', 'bmi', 'age', 'smoking_history']
+Accuracy: 0.95275
+Precision: 0.7168845935190449
+Recall: 0.7382903981264637
+F1 Score: 0.7274300548024228
+"""
+
+printLine()
+print("Feature Selection + Hyperparameter Tuning for Decision Tree")
+printLine()
+
+# Combine feature selection and hyperparameter tuning
+combined_decision_tree_model, X_test_selected = combined_train_decision_tree(X_train, y_train, X_test, n_features=5)
+
+# Evaluate the model
+cdt_accuracy, cdt_precision, cdt_recall, cdt_f1 = evaluate_model(combined_decision_tree_model, X_test_selected, y_test)
+print(f"Accuracy: {cdt_accuracy}")
+print(f"Precision: {cdt_precision}")
+print(f"Recall: {cdt_recall}")
+print(f"F1 Score: {cdt_f1}")
+"""
+-------------------
+Feature Selection + Hyperparameter Tuning for Decision Tree
+-------------------
+-------------------
+Feature Selection
+-------------------
+Selected Features: ['HbA1c_level', 'blood_glucose_level', 'bmi', 'age', 'smoking_history']
+-------------------
+Hyperparameter Tuning
+-------------------
+Best Parameters: {'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'entropy', 'max_depth': 10, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'min_samples_split': 2}
+Accuracy: 0.97185
+Precision: 0.9897348160821214
+Recall: 0.677400468384075
+F1 Score: 0.8043100451859576
+"""
+
+#############################################################################
+# NOTES
+#############################################################################
+"""
+Hyperparamter random forest and descision tree models produce similar reuslts. Random forest takes much longer to train however.
+descision tree is best candidate to move forward with.
+
+Feature selection made logistic regression worse
+
+Feature selection seems to have the best results with descision tree so far
+
+BEST RESULTS SO FAR:
+-------------------
+Feature Selection for Decision Tree
+-------------------
+Selected Features by Decision Tree: ['HbA1c_level', 'blood_glucose_level', 'bmi', 'age', 'smoking_history']
+Accuracy: 0.95275
+Precision: 0.7168845935190449
+Recall: 0.7382903981264637
+F1 Score: 0.7274300548024228
+
+Explanation:
+
+Accuracy: Set is very highly imbalance with 91.5% of the data not having diabetes. 
+This means that a model that predicts no diabetes for all samples will have an accuracy of 91.5%. 
+This is not the best metric to evaluate the model.
+
+Precision: Precision is the ratio of correctly predicted positive observations to the total predicted positives.
+That is to say there seems to be about 30% false positives in the model. This is not ideal.
+
+Recall: Recall is the ratio of correctly predicted positive observations to the all observations in actual class.
+This is probably the most important metric. Considering that we are trying to predict diabetes, we want to make sure that we are not missing any cases of diabetes.
+
+F1 Score: F1 Score is the weighted average of Precision and Recall.
+
+Hyperparameter tuning gives this result:
+Accuracy: 0.9722
+Precision: 1.0
+Recall: 0.6744730679156908
+F1 Score: 0.8055944055944056
+
+The precision is 1.0 which is perfect. This means that there are no false positives in the model.
+While combined with the accuracy of 0.9722, this is tempting to say that it's the best model, however 
+the recall is only 0.67, which means we are missing a lot of the cases of diabetes.
+
+Things not tried yet:
+- Model Fusion
+- Regularization Techniques
+"""
+
+
+
+
+
