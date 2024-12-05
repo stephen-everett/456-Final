@@ -181,11 +181,11 @@ Testing set: 20000 samples
 
 
 
-'''
+
 # Train models
 logistic_regression_model = train_logistic_regression(X_train, y_train)
-decision_tree_model = train_decision_tree(X_train, y_train)
-random_forest_model = train_random_forest(X_train, y_train)
+#decision_tree_model = train_decision_tree(X_train, y_train)
+#random_forest_model = train_random_forest(X_train, y_train)
 
 
 # Evaluate models
@@ -197,7 +197,7 @@ print(f"Accuracy: {lr_accuracy}")
 print(f"Precision: {lr_precision}")
 print(f"Recall: {lr_recall}")
 print(f"F1 Score: {lr_f1}")
-
+"""
 printLine()
 print("Decision Tree Model Evaluation")
 printLine()
@@ -215,4 +215,4 @@ print(f"Accuracy: {rf_accuracy}")
 print(f"Precision: {rf_precision}")
 print(f"Recall: {rf_recall}")
 print(f"F1 Score: {rf_f1}")
-'''
+"""
