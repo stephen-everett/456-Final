@@ -1,6 +1,8 @@
 from preprocessing import DataPreprocessor
 from utils import printLine
 from sklearn.model_selection import train_test_split
+from model_training import train_logistic_regression, train_decision_tree, train_random_forest
+from evaluation import evaluate_model
 
 filename = 'diabetes_prediction_dataset.csv'
 
@@ -159,6 +161,8 @@ Things to answer:
     4. Is the target variable balanced, or is there a class imbalance?
 """
 
+
+
 # Split the dataset into training and testing sets
 X = df.drop(columns=['diabetes'])
 y = df['diabetes']
@@ -174,3 +178,41 @@ Dataset split into training and testing sets.
 Training set: 80000 samples
 Testing set: 20000 samples
 """
+
+
+
+'''
+# Train models
+logistic_regression_model = train_logistic_regression(X_train, y_train)
+decision_tree_model = train_decision_tree(X_train, y_train)
+random_forest_model = train_random_forest(X_train, y_train)
+
+
+# Evaluate models
+printLine()
+print("Logistic Regression Model Evaluation")
+printLine()
+lr_accuracy, lr_precision, lr_recall, lr_f1 = evaluate_model(logistic_regression_model, X_test, y_test)
+print(f"Accuracy: {lr_accuracy}")
+print(f"Precision: {lr_precision}")
+print(f"Recall: {lr_recall}")
+print(f"F1 Score: {lr_f1}")
+
+printLine()
+print("Decision Tree Model Evaluation")
+printLine()
+dt_accuracy, dt_precision, dt_recall, dt_f1 = evaluate_model(decision_tree_model, X_test, y_test)
+print(f"Accuracy: {dt_accuracy}")
+print(f"Precision: {dt_precision}")
+print(f"Recall: {dt_recall}")
+print(f"F1 Score: {dt_f1}")
+
+printLine()
+print("Random Forest Model Evaluation")
+printLine()
+rf_accuracy, rf_precision, rf_recall, rf_f1 = evaluate_model(random_forest_model, X_test, y_test)
+print(f"Accuracy: {rf_accuracy}")
+print(f"Precision: {rf_precision}")
+print(f"Recall: {rf_recall}")
+print(f"F1 Score: {rf_f1}")
+'''
