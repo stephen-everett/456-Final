@@ -121,9 +121,13 @@ class DataPreprocessor:
         plt.show()
 
     def standardize(self):
-        numerical_cols = self.df.select_dtypes(include=['float64', 'int64']).columns
-        self.df[numerical_cols] = self.scaler.fit_transform(self.df[numerical_cols])
-        print("Numerical features standardized.")
+        # Identify continuous numerical columns (exclude binary/categorical columns)
+        continuous_cols = ['age', 'bmi', 'HbA1c_level', 'blood_glucose_level']
+        
+        # Standardize only continuous numerical features
+        self.df[continuous_cols] = self.scaler.fit_transform(self.df[continuous_cols])
+        
+        print("Continuous numerical features standardized.")
         print(self.df.head())
 
     def getDf(self):

@@ -11,7 +11,7 @@ pre_processor = DataPreprocessor(filename)
 pre_processor.load_dataset()
 
 #check to see what the data looks like initially:
-pre_processor.head()
+#pre_processor.head()
 """
 HEAD
 -------------------
@@ -24,7 +24,7 @@ HEAD
 """
 
 # looking at numerican properties of the dataset
-pre_processor.describe()
+#pre_processor.describe()
 """
                  age  hypertension  heart_disease            bmi    HbA1c_level  blood_glucose_level       diabetes
 count  100000.000000  100000.00000  100000.000000  100000.000000  100000.000000        100000.000000  100000.000000
@@ -41,7 +41,7 @@ max        80.000000       1.00000       1.000000      95.690000       9.000000 
 """
 
 # See data type and if there are any nulls in the data
-pre_processor.info()
+#pre_processor.info()
 """
 RangeIndex: 100000 entries, 0 to 99999
 Data columns (total 9 columns):
@@ -62,7 +62,7 @@ Data columns (total 9 columns):
 """
 
 # check the shape of the dataset
-pre_processor.shape()
+#pre_processor.shape()
 """
 Dataset contains 100000 rows and 9 columns.
 """
@@ -83,25 +83,25 @@ HEAD
 """
 
 # show graph of class distrubution
-pre_processor.class_distribution('diabetes')
+#pre_processor.class_distribution('diabetes')
 """
 A graph opens
 """
 
 # show histograms to identify outliers
-pre_processor.histogram_outliers()
+#pre_processor.histogram_outliers()
 """
 A graph opens
 """
 
 # show box-plots to identify outliers
-pre_processor.boxplot_outliers()
+#pre_processor.boxplot_outliers()
 """
 A graph opens
 """
 
 # show a correlation analysis
-pre_processor.correlation_analysis()
+#pre_processor.correlation_analysis()
 """
 A graph opens
 """
@@ -184,8 +184,8 @@ Testing set: 20000 samples
 
 # Train models
 logistic_regression_model = train_logistic_regression(X_train, y_train)
-#decision_tree_model = train_decision_tree(X_train, y_train)
-#random_forest_model = train_random_forest(X_train, y_train)
+decision_tree_model = train_decision_tree(X_train, y_train)
+random_forest_model = train_random_forest(X_train, y_train)
 
 
 # Evaluate models
@@ -197,7 +197,7 @@ print(f"Accuracy: {lr_accuracy}")
 print(f"Precision: {lr_precision}")
 print(f"Recall: {lr_recall}")
 print(f"F1 Score: {lr_f1}")
-"""
+
 printLine()
 print("Decision Tree Model Evaluation")
 printLine()
@@ -215,4 +215,3 @@ print(f"Accuracy: {rf_accuracy}")
 print(f"Precision: {rf_precision}")
 print(f"Recall: {rf_recall}")
 print(f"F1 Score: {rf_f1}")
-"""
