@@ -130,6 +130,9 @@ class DataPreprocessor:
         print("Continuous numerical features standardized.")
         print(self.df.head())
 
+
+
+    plt.show()
     def getDf(self):
         return self.df
 

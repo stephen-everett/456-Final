@@ -1,5 +1,5 @@
 from preprocessing import DataPreprocessor
-from utils import printLine
+from utils import *
 from sklearn.model_selection import train_test_split
 from model_training import  *
 from evaluation import evaluate_model
@@ -11,7 +11,7 @@ pre_processor = DataPreprocessor(filename)
 pre_processor.load_dataset()
 
 #check to see what the data looks like initially:
-#pre_processor.head()
+pre_processor.head()
 """
 HEAD
 -------------------
@@ -24,7 +24,7 @@ HEAD
 """
 
 # looking at numerican properties of the dataset
-#pre_processor.describe()
+pre_processor.describe()
 """
                  age  hypertension  heart_disease            bmi    HbA1c_level  blood_glucose_level       diabetes
 count  100000.000000  100000.00000  100000.000000  100000.000000  100000.000000        100000.000000  100000.000000
@@ -42,7 +42,7 @@ max        80.000000       1.00000       1.000000      95.690000       9.000000 
 """
 
 # See data type and if there are any nulls in the data
-#pre_processor.info()
+pre_processor.info()
 """
 RangeIndex: 100000 entries, 0 to 99999
 Data columns (total 9 columns):
@@ -63,7 +63,7 @@ Data columns (total 9 columns):
 """
 
 # check the shape of the dataset
-#pre_processor.shape()
+pre_processor.shape()
 """
 Dataset contains 100000 rows and 9 columns.
 """
@@ -115,13 +115,14 @@ A graph opens
 # Standardize numerical features
 pre_processor.standardize()
 """
-Numerical features standardized.
-   gender       age  hypertension  ...  HbA1c_level blood_glucose_level  diabetes
-0  Female  1.692704     -0.284439  ...     1.001706            0.047704 -0.304789
-1  Female  0.538006     -0.284439  ...     1.001706           -1.426210 -0.304789
-2    Male -0.616691     -0.284439  ...     0.161108            0.489878 -0.304789
-3  Female -0.261399     -0.284439  ...    -0.492690            0.416183 -0.304789
-4    Male  1.515058      3.515687  ...    -0.679490            0.416183 -0.304789
+Continuous numerical features standardized.
+   gender       age  hypertension  heart_disease  smoking_history       bmi  HbA1c_level  blood_glucose_level  diabetes
+0       0  1.692704             0              1                4 -0.321056     1.001706             0.047704         0
+1       0  0.538006             0              0                0 -0.000116     1.001706            -1.426210         0
+2       1 -0.616691             0              0                4 -0.000116     0.161108             0.489878         0
+3       0 -0.261399             0              0                1 -0.583232    -0.492690             0.416183         0
+4       1  1.515058             1              1                1 -1.081970    -0.679490             0.416183         0
+-------------------
 """
 
 
@@ -188,7 +189,7 @@ logistic_regression_model = train_logistic_regression(X_train, y_train)
 decision_tree_model = train_decision_tree(X_train, y_train)
 random_forest_model = train_random_forest(X_train, y_train)
 
-
+"""
 # Evaluate models
 printLine()
 print("Logistic Regression Model Evaluation")
@@ -199,6 +200,7 @@ print(f"Precision: {lr_precision}")
 print(f"Recall: {lr_recall}")
 print(f"F1 Score: {lr_f1}")
 """
+"""
 -------------------
 Logistic Regression Model Evaluation
 -------------------
@@ -207,7 +209,7 @@ Precision: 0.8645747316267548
 Recall: 0.6129976580796253
 F1 Score: 0.7173689619732785
 """
-
+"""
 printLine()
 print("Decision Tree Model Evaluation")
 printLine()
@@ -217,6 +219,7 @@ print(f"Precision: {dt_precision}")
 print(f"Recall: {dt_recall}")
 print(f"F1 Score: {dt_f1}")
 """
+"""
 -------------------
 Decision Tree Model Evaluation
 -------------------
@@ -225,7 +228,7 @@ Precision: 0.7090807174887892
 Recall: 0.740632318501171
 F1 Score: 0.7245131729667812
 """
-
+"""
 printLine()
 print("Random Forest Model Evaluation")
 printLine()
@@ -234,6 +237,7 @@ print(f"Accuracy: {rf_accuracy}")
 print(f"Precision: {rf_precision}")
 print(f"Recall: {rf_recall}")
 print(f"F1 Score: {rf_f1}")
+"""
 """
 -------------------
 Random Forest Model Evaluation
@@ -266,7 +270,7 @@ Precision: 0.8685524126455907
 Recall: 0.6112412177985949
 F1 Score: 0.7175257731958763
 """
-
+"""
 printLine()
 print("Hyperparameter Tuning for Decision Tree")
 printLine()
@@ -276,7 +280,7 @@ print(f"Accuracy: {hdt_accuracy}")
 print(f"Precision: {hdt_precision}")
 print(f"Recall: {hdt_recall}")
 print(f"F1 Score: {hdt_f1}")
-
+"""
 """
 -------------------
 Hyperparameter Tuning for Decision Tree
@@ -291,7 +295,8 @@ F1 Score: 0.8051766351871283
 
 """
 This takes a long time, commenting it out for now
-
+"""
+"""
 printLine()
 print("Hyperparameter Tuning for Random Forest")
 printLine()
@@ -312,7 +317,7 @@ Precision: 1.0
 Recall: 0.6744730679156908
 F1 Score: 0.8055944055944056
 """
-
+"""
 # feature selection
 printLine()
 print("Feature Selection for Logistic Regression")
@@ -323,6 +328,7 @@ print(f"Accuracy: {rfe_lr_accuracy}")
 print(f"Precision: {rfe_lr_precision}")
 print(f"Recall: {rfe_lr_recall}")
 print(f"F1 Score: {rfe_lr_f1}")
+"""
 """
 -------------------
 Feature Selection for Logistic Regression
@@ -335,12 +341,26 @@ F1 Score: 0.6990628254078445
 """
 
 printLine()
+print("Feature Selection For Random Forest")
+printLine()
+
+# Perform feature selection with Random Forest
+rf_model, selected_features_rf, X_test_selected_rf = feature_selection_random_forest(X_train, y_train, X_test, n_features=5)
+
+# Evaluate the model
+rf_accuracy, rf_precision, rf_recall, rf_f1 = evaluate_model(rf_model, X_test_selected_rf, y_test)
+print(f"Accuracy: {rf_accuracy}")
+print(f"Precision: {rf_precision}")
+print(f"Recall: {rf_recall}")
+print(f"F1 Score: {rf_f1}")
+
+
+printLine()
 print("Feature Selection for Decision Tree")
 printLine()
 
 # Perform feature selection with Decision Tree
 dt_model, selected_features, X_test_selected = feature_selection_decision_tree(X_train, y_train, X_test, n_features=5)
-
 # Evaluate the model
 dt_accuracy, dt_precision, dt_recall, dt_f1 = evaluate_model(dt_model, X_test_selected, y_test)
 print(f"Accuracy: {dt_accuracy}")
@@ -348,6 +368,16 @@ print(f"Precision: {dt_precision}")
 print(f"Recall: {dt_recall}")
 print(f"F1 Score: {dt_f1}")
 """
+
+-------------------
+Decision Tree Model Evaluation
+-------------------
+Accuracy: 0.9519
+Precision: 0.7090807174887892
+Recall: 0.740632318501171
+F1 Score: 0.7245131729667812
+
+
 -------------------
 Feature Selection for Decision Tree
 -------------------
@@ -356,12 +386,81 @@ Accuracy: 0.95275
 Precision: 0.7168845935190449
 Recall: 0.7382903981264637
 F1 Score: 0.7274300548024228
-"""
 
+
+-------------------
+Feature Selection for Decision Tree
+-------------------
+Selected Features by Decision Tree: ['HbA1c_level', 'blood_glucose_level']
+Accuracy: 0.97215
+Precision: 1.0
+Recall: 0.6738875878220141
+F1 Score: 0.8051766351871283
+
+-------------------
+Hyperparameter Tuning for Decision Tree
+-------------------
+Best parameters for Decision Tree: {'ccp_alpha': 0.0, 'criterion': 'gini', 'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1, 'min_samples_split': 2}
+Accuracy: 0.97215
+Precision: 1.0
+Recall: 0.6738875878220141
+F1 Score: 0.8051766351871283
+
+
+Hyperparameter Tuning for Random Forest
+-------------------
+Best parameters for Random Forest: {'bootstrap': True, 'max_depth': 10, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'min_samples_split': 2, 'n_estimators': 100}
+Accuracy: 0.9722
+Precision: 1.0
+Recall: 0.6744730679156908
+F1 Score: 0.8055944055944056
+
+-------------------
+Feature Selection For Random Forest
+-------------------
+Selected Features by Random Forest: ['HbA1c_level', 'blood_glucose_level']
+Accuracy: 0.97215
+Precision: 1.0
+Recall: 0.6738875878220141
+F1 Score: 0.8051766351871283
+
+-------------------
+Feature Selection + Threshold Tuning for Decision Tree
+-------------------
+Selected Features by Decision Tree: ['HbA1c_level', 'blood_glucose_level', 'bmi', 'age', 'smoking_history']
+Threshold: 0.6
+Accuracy: 0.95275
+Precision: 0.7168845935190449
+Recall: 0.7382903981264637
+F1 Score: 0.7274300548024228
+
+-------------------
+Feature Selection + Threshold Tuning for Decision Tree
+-------------------
+Selected Features by Decision Tree: ['HbA1c_level', 'blood_glucose_level', 'bmi', 'age', 'smoking_history']
+Threshold: 0.06
+Accuracy: 0.949
+Precision: 0.6865509761388287
+Recall: 0.7412177985948478
+F1 Score: 0.7128378378378378
+
+-------------------
+Feature Selection + Threshold Tuning for Decision Tree
+-------------------
+Selected Features by Decision Tree: ['HbA1c_level', 'blood_glucose_level']
+Threshold: 0.06
+Accuracy: 0.6977
+Precision: 0.21550367261280168
+Recall: 0.961943793911007
+F1 Score: 0.35212173167595373
+"""
+"""
 printLine()
 print("Feature Selection + Hyperparameter Tuning for Decision Tree")
 printLine()
 
+"""
+"""
 # Combine feature selection and hyperparameter tuning
 combined_decision_tree_model, X_test_selected = combined_train_decision_tree(X_train, y_train, X_test, n_features=5)
 
@@ -371,6 +470,7 @@ print(f"Accuracy: {cdt_accuracy}")
 print(f"Precision: {cdt_precision}")
 print(f"Recall: {cdt_recall}")
 print(f"F1 Score: {cdt_f1}")
+"""
 """
 -------------------
 Feature Selection + Hyperparameter Tuning for Decision Tree
@@ -388,6 +488,39 @@ Precision: 0.9897348160821214
 Recall: 0.677400468384075
 F1 Score: 0.8043100451859576
 """
+
+
+plot_confusion_matrix(dt_model, X_test_selected, y_test)
+plot_roc_curve(dt_model, X_test_selected, y_test)
+feature_results = evaluate_n_features(X_train, y_train, X_test, y_test, max_features=9)
+plot_feature_selection_results(feature_results)
+
+#plot roc curve, feature results, plot feature selection results for random forest
+
+
+#plot_roc_curve(rf_model, X_test_selected_rf, y_test)
+#feature_results_rf = evaluate_n_features_random_forest(X_train, y_train, X_test, y_test, max_features=9)
+#plot_feature_selection_results(feature_results_rf)
+
+#analyze thresholds for dt_model
+#analyze_thresholds(dt_model, X_test_selected, y_test)
+
+printLine()
+print("Feature Selection + Threshold Tuning for Decision Tree")
+printLine()
+
+# Evaluate for a specific threshold
+model, selected_features, accuracy, precision, recall, f1 = feature_selection_with_threshold(
+    X_train, y_train, X_test, y_test, n_features=5, threshold=0.06
+)
+
+plot_confusion_matrix(model, X_test[selected_features], y_test)
+plot_roc_curve(model, X_test[selected_features], y_test)
+
+
+
+
+
 
 #############################################################################
 # NOTES
